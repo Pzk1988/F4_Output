@@ -35,13 +35,18 @@ int main(void)
 		if(sem == 1)
 		{
 			sem = 0;
-			printf("Can 0x%x, len %d, 0x%x, 0x%x, 0x%x, 0x%x\r\n", RxMessage.StdId,
-																   RxMessage.DLC,
-																   ((RxMessage.Data[0]) | RxMessage.Data[1] << 8),
-																   ((RxMessage.Data[2]) | RxMessage.Data[3] << 8),
-																   ((RxMessage.Data[4]) | RxMessage.Data[5] << 8),
-																   ((RxMessage.Data[6]) | RxMessage.Data[7] << 8));
+			printf("Can 0x%x, len %d", RxMessage.StdId, RxMessage.DLC);
+			for(size_t i = 0; i < RxMessage.DLC; i++)
+			{
+				printf(", %x", RxMessage.Data[i]);
+			}
+			printf("\r\n");
+
+			// Process outputs
 			outputCard.Process(&RxMessage.Data[0]);
+
+			// Send response
+			can->DataFrame(0x01, nullptr, 0);
 		}
 	}
 }

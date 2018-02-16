@@ -1,6 +1,7 @@
 #include <Can.hpp>
 #include "stm32f4xx_gpio.h"
 #include "core_cm4.h"
+#include <string.h>
 
 namespace Driver
 {
@@ -134,6 +135,13 @@ uint8_t Can::Init(uint8_t filterId)
 
 bool Can::DataFrame(uint16_t id, uint8_t* pData, uint8_t len)
 {
+	CanTxMsg canTxMsg;
+	canTxMsg.StdId = id;
+	canTxMsg.RTR = CAN_RTR_DATA;
+	canTxMsg.IDE = CAN_ID_STD;
+	canTxMsg.DLC = len;
+	memcpy(canTxMsg.Data, pData, len);
+	CAN_Transmit(CAN1, &canTxMsg);
 	return false;
 }
 

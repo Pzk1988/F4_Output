@@ -1,6 +1,6 @@
 #include <Output.hpp>
 
-Output::Output(uint8_t Id, GPIO_TypeDef* Port, uint16_t GPIO_Pin)
+Output::Output(uint8_t Id, GPIO_TypeDef* Port, uint16_t GPIO_Pin) : Id(Id), Port(Port), GPIO_Pin(GPIO_Pin)
 {
 	GPIO_InitTypeDef gpioInit;
 	gpioInit.GPIO_Mode = GPIO_Mode_OUT;
@@ -13,5 +13,12 @@ Output::Output(uint8_t Id, GPIO_TypeDef* Port, uint16_t GPIO_Pin)
 
 void Output::SetState(bool state)
 {
-
+	if(state == true)
+	{
+		Port->ODR |= GPIO_Pin;
+	}
+	else
+	{
+		Port->ODR &= ~GPIO_Pin;
+	}
 }

@@ -2,9 +2,9 @@
 
 OutputList Configuration::outputs[] =
 {
-		{0, GPIOC, GPIO_Pin_0},
-		{1, GPIOC, GPIO_Pin_1},
-		{2, GPIOC, GPIO_Pin_2},
-		{3, GPIOC, GPIO_Pin_3}
+		{0, GPIOD, GPIO_Pin_12},
+		{1, GPIOD, GPIO_Pin_13},
+		{2, GPIOD, GPIO_Pin_14},
+		{3, GPIOD, GPIO_Pin_15}
 };
 

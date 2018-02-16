@@ -9,6 +9,11 @@ public:
 	Output(uint8_t Id, GPIO_TypeDef* Port, uint16_t GPIO_Pin);
 	virtual ~Output() = default;
 	void SetState(bool state);
+
+private:
+	uint8_t Id;
+	GPIO_TypeDef* Port;
+	uint16_t GPIO_Pin;
 };
 
 #endif // OUTPUT_HPP

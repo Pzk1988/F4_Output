@@ -6,6 +6,8 @@
 
 void OutputCard::Init()
 {
+	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOD, ENABLE);
+
 	for(size_t i = 0; i < Configuration::GetOutputAmount(); i++)
 	{
 		outputVector.push_back(new Output(Configuration::GetOutputList()[i].Id,
