@@ -21,7 +21,7 @@ int main(void)
 	serial->Init(115200);
 
 	// Can driver
-	can = new Driver::Can();
+	can = new Driver::Can(Configuration::GetId());
 	can->Init(Configuration::GetId());
 
 	// OutpuCard
@@ -35,7 +35,7 @@ int main(void)
 		if(sem == 1)
 		{
 			sem = 0;
-			printf("Can 0x%x, len %d", RxMessage.StdId, RxMessage.DLC);
+			printf("Can 0x%x from 0x%x, len %d", (RxMessage.StdId & 0x1F), RxMessage.StdId >> 5, RxMessage.DLC);
 			for(size_t i = 0; i < RxMessage.DLC; i++)
 			{
 				printf(", %x", RxMessage.Data[i]);
