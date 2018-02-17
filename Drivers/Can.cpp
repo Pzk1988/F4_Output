@@ -2,6 +2,7 @@
 #include "stm32f4xx_gpio.h"
 #include "core_cm4.h"
 #include <string.h>
+#include <stdio.h>
 
 namespace Driver
 {
@@ -102,7 +103,7 @@ uint8_t Can::Init(uint8_t filterId)
 	CAN_InitStructure.CAN_TTCM = DISABLE;
 	CAN_InitStructure.CAN_ABOM = DISABLE;
 	CAN_InitStructure.CAN_AWUM = DISABLE;
-	CAN_InitStructure.CAN_NART = DISABLE;
+	CAN_InitStructure.CAN_NART = ENABLE;
 	CAN_InitStructure.CAN_RFLM = DISABLE;
 	CAN_InitStructure.CAN_TXFP = DISABLE;
 	CAN_InitStructure.CAN_Mode = CAN_Mode_Normal;
@@ -146,8 +147,11 @@ bool Can::DataFrame(uint16_t id, uint8_t* pData, uint8_t len)
 	canTxMsg.IDE = CAN_ID_STD;
 	canTxMsg.DLC = len;
 	memcpy(canTxMsg.Data, pData, len);
-	CAN_Transmit(CAN1, &canTxMsg);
-	return false;
+	if( CAN_TxStatus_NoMailBox == CAN_Transmit(CAN1, &canTxMsg))
+	{
+		return false;
+	}
+	return true;
 }
 
 bool Can::RemoteFrame(uint16_t id)
@@ -157,7 +161,30 @@ bool Can::RemoteFrame(uint16_t id)
 	canTxMsg.RTR = CAN_RTR_REMOTE;
 	canTxMsg.IDE = CAN_ID_STD;
 	canTxMsg.DLC = 0;
-	CAN_Transmit(CAN1, &canTxMsg);
+	if( CAN_TxStatus_NoMailBox == CAN_Transmit(CAN1, &canTxMsg))
+	{
+		return false;
+	}
+	return true;
+}
+
+bool Can::AbortTx()
+{
+	if(CAN_TransmitStatus(CAN1, 0) != CAN_TxStatus_Ok)
+	{
+		CAN_CancelTransmit(CAN1, 0);
+		printf("Canceling mailbox 0 \r\n");
+	}
+	if(CAN_TransmitStatus(CAN1, 1) != CAN_TxStatus_Ok)
+	{
+		CAN_CancelTransmit(CAN1, 1);
+		printf("Canceling mailbox 1 \r\n");
+	}
+	if(CAN_TransmitStatus(CAN1, 2) != CAN_TxStatus_Ok)
+	{
+		CAN_CancelTransmit(CAN1, 2);
+		printf("Canceling mailbox 2 \r\n");
+	}
 	return true;
 }
 

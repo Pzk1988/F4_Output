@@ -46,7 +46,11 @@ int main(void)
 			outputCard.Process(&RxMessage.Data[0]);
 
 			// Send response
-			can->DataFrame(0x01, nullptr, 0);
+			if( false == can->DataFrame(0x01, nullptr, 0))
+			{
+//				can->AbortTx();
+				printf("Can transmite false\r\n");
+			}
 		}
 	}
 }

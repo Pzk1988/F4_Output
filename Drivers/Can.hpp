@@ -16,6 +16,7 @@ public:
 	uint8_t Init(uint8_t filterId);
 	bool DataFrame(uint16_t id, uint8_t* pData, uint8_t len);
 	bool RemoteFrame(uint16_t id);
+	bool AbortTx();
 
 private:
 	uint8_t ownId;
