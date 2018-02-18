@@ -40,7 +40,7 @@ uint8_t Can::Init()
 	CAN_InitStructure.CAN_TTCM = DISABLE;
 	CAN_InitStructure.CAN_ABOM = DISABLE;
 	CAN_InitStructure.CAN_AWUM = DISABLE;
-	CAN_InitStructure.CAN_NART = DISABLE;
+	CAN_InitStructure.CAN_NART = ENABLE;
 	CAN_InitStructure.CAN_RFLM = DISABLE;
 	CAN_InitStructure.CAN_TXFP = DISABLE;
 	CAN_InitStructure.CAN_Mode = CAN_Mode_Normal;
