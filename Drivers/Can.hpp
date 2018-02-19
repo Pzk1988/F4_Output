@@ -1,8 +1,8 @@
 #ifndef CAN_HPP
 #define CAN_HPP
 
+#include <ICommunication.hpp>
 #include <stdint.h>
-#include "ICan.hpp"
 
 namespace Driver
 {
